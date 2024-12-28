@@ -110,7 +110,8 @@ fn main() {
     // Step 2: Prepare game state
     let mut used_words = HashSet::new();
     let mut total_score = 0;
-    let mut message = "Welcome to LibreBee!".to_string();
+    let mut message = "Welcome to Libre Bee!".to_string();
+    println!("Libe Bee  Copyright (C) 2024  Zev Oster\nThis program comes with ABSOLUTELY NO WARRANTY; for details type `/warranty'.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; type /license for details.");
 
     // Step 3: Game loop
     loop {
@@ -136,6 +137,10 @@ fn main() {
                 display_text(&["assets/rules.txt"]);
             } else if word == "/commands" {
                 display_text(&["assets/commands.txt"]);
+            } else if word == "/warranty" {
+                println!("THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY \nAPPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT \nHOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT \nWARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT \nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR \nA PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND \nPERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE \nDEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR \nCORRECTION.")
+            } else if word == "/license" {
+                display_text(&["assets/gpl-3.0.md"]);
             } else if word == "/stats" {
                 println!("Total score: {}", total_score);
                 println!("Words used: {:?}", used_words);            

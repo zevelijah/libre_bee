@@ -4,6 +4,9 @@ Commands:
 /commands - only shows game commands
 /info - shows creator and liscense information
 
+/license - full GNU 3.0 license
+/warranty - Shows GNU Warranty Message
+
 /stats - combines /found and /score
 /found - Shows words you've discovered so far
 /score - shows your current score

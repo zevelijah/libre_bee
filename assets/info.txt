@@ -1,8 +1,17 @@
 Info: 
-This game was made by Zev Oster.
-This game is a rust CLI clone of NYT Games' Spelling Bee.
 
-You may modify this and distribute directly to peers, but please do not modify or remove this "info" text, including by removing the "/info" command. 
-Please do not publish this software such that it would be accessible "general audiences," i.e. unknown persons.
+Libre Bee is an free, open source and unofficial CLI version of NYT Games' Spelling Bee.
+Copyright (C) 2024  Zev Oster
 
-I recognize this is not legally binding, I make this appeal to your honor.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
