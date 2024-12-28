@@ -1,0 +1,1 @@
+The assets must currently be obtained seperatly for proper program function.
