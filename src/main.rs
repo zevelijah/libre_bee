@@ -127,7 +127,7 @@ fn main() {
             if word == "/quit" {
                 break;
             } else if word == "/help" {
-                display_text(&[COMMANDS_TEXT, RULES_TEXT, INFO_TEXT]);
+                display_text(&[INFO_TEXT, COMMANDS_TEXT, RULES_TEXT]);
             } else if word == "/info" {
                 display_text(&[INFO_TEXT]);
             } else if word == "/rules" {
