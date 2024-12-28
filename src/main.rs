@@ -111,12 +111,12 @@ fn main() {
     // Step 3: Game loop
     loop {
         clear().expect("failed to clear screen");
-        println!("Libe Bee  Copyright (C) 2024  Zev Oster\nThis program comes with ABSOLUTELY NO WARRANTY; for details type `/warranty'.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; type /license for details.\n\n");
+        println!("Libe Bee  Copyright (C) 2024  Zev Oster\nThis program comes with ABSOLUTELY NO WARRANTY; for details type \"/warranty\".\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; type \"/license\" for details.\n\n");
         println!("Message: {}", message);
         println!("Score: {:?}", total_score);
         println!("🔤 Letters: {:?}", letters);
         println!("⭐ Required letter: '{}'", required_letter);
-        println!("\nEnter a word (or type '/quit' to exit, '/help' for more commands and game rules, or another command):");
+        println!("\nEnter a word (type '/shuffle' to shuffle the letters, type '/quit' to exit, '/help' for more commands and game rules):");
         let mut input = String::new();
         io::stdin().read_line(&mut input).unwrap();
         let word = input.trim().to_lowercase();
@@ -145,8 +145,13 @@ fn main() {
                 println!("Total score: {}", total_score);
             } else if word == "/found" {
                 println!("Words used: {:?}", used_words);
+            } else if word == "/shuffle" {
+                letters.shuffle(&mut rand::thread_rng());
+                message = "Letter shuffled.".to_string();
+                continue;
             } else {
-                println!("❌ Invalid Command! Use '/commands' for a list of commands.");
+                message = "❌ Invalid Command! Use '/commands' for a list of commands.".to_string();
+                continue;
             }
             println!("\nPress Enter to Continue...");
             let mut returnline = String::new();
