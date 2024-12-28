@@ -107,11 +107,11 @@ fn main() {
     let mut used_words = HashSet::new();
     let mut total_score = 0;
     let mut message = "Welcome to Libre Bee!".to_string();
-    println!("Libe Bee  Copyright (C) 2024  Zev Oster\nThis program comes with ABSOLUTELY NO WARRANTY; for details type `/warranty'.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; type /license for details.");
 
     // Step 3: Game loop
     loop {
         clear().expect("failed to clear screen");
+        println!("Libe Bee  Copyright (C) 2024  Zev Oster\nThis program comes with ABSOLUTELY NO WARRANTY; for details type `/warranty'.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; type /license for details.\n\n");
         println!("Message: {}", message);
         println!("Score: {:?}", total_score);
         println!("🔤 Letters: {:?}", letters);
