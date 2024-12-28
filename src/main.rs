@@ -2,8 +2,7 @@ use rand::seq::SliceRandom;
 use rand::Rng;
 use clearscreen::clear;
 use std::collections::HashSet;
-use std::fs::{self, File};
-use std::io::{self, BufRead};
+use std::io;
 
 /// Computes the score for a given word based on its length and unique characters.
 /// 
@@ -36,32 +35,24 @@ pub fn compute_score(word: &str) -> usize {
 /// # Returns
 /// A `HashSet<String>` containing all the words in the file.
 ///
-pub fn load_word_list(file_path: &str) -> HashSet<String> {
+pub fn load_word_list(file_content: &str) -> HashSet<String> {
     let mut word_set = HashSet::new();
-    if let Ok(file) = File::open(file_path) {
-        let reader = io::BufReader::new(file);
-        for line in reader.lines() {
-            if let Ok(word) = line {
-                word_set.insert(word.trim().to_string()); // Store each word
-            }
-        }
+    for line in file_content.lines() {
+        word_set.insert(line.trim().to_string()); // Store each word
     }
     word_set
 }
 
-fn get_random_line(file_path: &str) -> io::Result<String> {
-    let file = File::open(file_path)?;
-    let reader = io::BufReader::new(file);
-    
-    let lines: Vec<String> = reader.lines().filter_map(|line| line.ok()).collect();
+fn get_random_line(file_content: &str) -> Option<String> {
+    let lines: Vec<&str> = file_content.lines().collect();
     let total_lines = lines.len();
 
     if total_lines == 0 {
-        return Err(io::Error::new(io::ErrorKind::Other, "File is empty"));
+        return None;
     }
 
     let random_index = rand::thread_rng().gen_range(0..total_lines);
-    Ok(lines[random_index].clone())
+    Some(lines[random_index].to_string())
 }
 
 /// Validates whether a given word exists in the loaded word list.
@@ -80,30 +71,35 @@ pub fn is_valid_word(word: &str, word_list: &HashSet<String>) -> bool {
 /// Displays the contents of specified text files.
 /// 
 /// # Parameters
-/// - `files`: A slice of file paths (as strings) to display.
+/// - `files`: A slice of file contents (as strings) to display.
 /// 
 /// # Behavior
-/// This function will read each file, and print its content to the console. If a file cannot be loaded,
+/// This function will print the content to the console. If a content is empty,
 /// an error message is printed.
-pub fn display_text(files: &[&str]) {
-    for file in files.iter() {
-        match fs::read_to_string(file) {
-            Ok(content) => {
-                println!("{}", content);
-            }
-            Err(_) => {
-                println!("❌ Failed to load {}", file);
-            }
+pub fn display_text(file_contents: &[&str]) {
+    for content in file_contents.iter() {
+        if !content.is_empty() {
+            println!("{}", content);
+        } else {
+            println!("❌ Failed to load content");
         }
     }
 }
 
+// Embedding file contents directly into the binary
+const WORD_LIST: &str = include_str!("../assets/word-list-raw.txt");
+const SEVEN_UNIQUE_LETTER_WORDS: &str = include_str!("../assets/seven_unique_letter_words.txt");
+const COMMANDS_TEXT: &str = include_str!("../assets/commands.txt");
+const RULES_TEXT: &str = include_str!("../assets/rules.txt");
+const INFO_TEXT: &str = include_str!("../assets/info.txt");
+const GPL_LICENSE: &str = include_str!("../assets/gpl-3.0.md");
+
 fn main() {
-    // Load the word list from the file
-    let word_list = load_word_list("assets/word-list-raw.txt");
+    // Load the word list from the embedded content
+    let word_list = load_word_list(WORD_LIST);
 
     // Step 1: Generate letters
-    let mut letters: Vec<char> = get_random_line("assets/seven_unique_letter_words.txt").unwrap().chars().collect();
+    let mut letters: Vec<char> = get_random_line(SEVEN_UNIQUE_LETTER_WORDS).unwrap().chars().collect();
     letters.shuffle(&mut rand::thread_rng());
     let required_letter = letters[0]; // First letter is required
 
@@ -127,20 +123,21 @@ fn main() {
 
         // Process commands
         if word.starts_with('/') {
+            clear().expect("failed to clear screen");
             if word == "/quit" {
                 break;
             } else if word == "/help" {
-                display_text(&["assets/commands.txt", "assets/rules.txt", "assets/info.txt"]);
+                display_text(&[COMMANDS_TEXT, RULES_TEXT, INFO_TEXT]);
             } else if word == "/info" {
-                display_text(&["assets/info.txt"]);
+                display_text(&[INFO_TEXT]);
             } else if word == "/rules" {
-                display_text(&["assets/rules.txt"]);
+                display_text(&[RULES_TEXT]);
             } else if word == "/commands" {
-                display_text(&["assets/commands.txt"]);
+                display_text(&[COMMANDS_TEXT]);
             } else if word == "/warranty" {
                 println!("THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY \nAPPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT \nHOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT \nWARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT \nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR \nA PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND \nPERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE \nDEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR \nCORRECTION.")
             } else if word == "/license" {
-                display_text(&["assets/gpl-3.0.md"]);
+                display_text(&[GPL_LICENSE]);
             } else if word == "/stats" {
                 println!("Total score: {}", total_score);
                 println!("Words used: {:?}", used_words);            
@@ -218,7 +215,7 @@ mod tests {
 
     #[test]
     fn test_is_valid_word() {
-        let word_list = load_word_list("assets/word-list-raw.txt");
+        let word_list = load_word_list(WORD_LIST);
         let word = "hello";  // Make sure this word exists in your word list
         assert!(is_valid_word(word, &word_list));
     }
