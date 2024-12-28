@@ -113,7 +113,7 @@ fn main() {
     loop {
         clear().expect("failed to clear screen");
         println!("Message: {}", message);
-        println!("Score {:?}", total_score);
+        println!("Score: {:?}", total_score);
         println!("🔤 Letters: {:?}", letters);
         println!("⭐ Required letter: '{}'", required_letter);
         println!("\nEnter a word (or type '/quit' to exit, '/help' for more commands and game rules, or another command):");
