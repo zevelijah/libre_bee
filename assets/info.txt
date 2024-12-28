@@ -1,0 +1,8 @@
+Info: 
+This game was made by Zev Oster.
+This game is a rust CLI clone of NYT Games' Spelling Bee.
+
+You may modify this and distribute directly to peers, but please do not modify or remove this "info" text, including by removing the "/info" command. 
+Please do not publish this software such that it would be accessible "general audiences," i.e. unknown persons.
+
+I recognize this is not legally binding, I make this appeal to your honor.

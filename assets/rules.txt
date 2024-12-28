@@ -1,0 +1,12 @@
+Game Rules:
+You are provided seven distict letters, including one you must use. You are to enter words, subject to the following constraints:
+1. You may only use the provided letters, though you may use each as many times as you desire.
+2. You must use the required letter at least once in your word.
+3. Only english words as recognized by Josh Wardle's powerlanguage word list, available on github. Thanks, Josh.
+4. Must be at least four letters long.
+5. You may not enter the same letter multiple times.
+
+Scoring is based on this system:
+1. 4-letter words score one point.
+2. Longer words score one word per letter.
+3. Words using all seven letters earn a 7-point bonus.

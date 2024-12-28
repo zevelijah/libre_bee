@@ -1,0 +1,8 @@
+[package]
+name = "libre_bee"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rand = "0.8"
+clearscreen = "3.0.0"

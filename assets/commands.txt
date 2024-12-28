@@ -1,0 +1,11 @@
+Commands:
+/help - combines /rules, /commands, and /info
+/rules - Only shows game rules
+/commands - only shows game commands
+/info - shows creator and liscense information
+
+/stats - combines /found and /score
+/found - Shows words you've discovered so far
+/score - shows your current score
+
+/quit - shows you game score and words used and exits the program
