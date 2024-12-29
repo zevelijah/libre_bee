@@ -1,15 +1,61 @@
-This freeware clones NYT Spelling Bee for the CLI. In zsh or bash terminals, after cloning this repo, build from the source by doing the following:
+# Libre Bee - NYT Spelling Bee CLI Clone
+
+Libre Bee is a free and open-source command-line clone of the New York Times Spelling Bee game. This program runs on most operating systems and requires a terminal emulator to play.
+
+## Installation
+
+### Prerequisites
+1. **Install Rust and Cargo:**
+   - **Linux (Debian/Ubuntu):**
+     ```sh
+     sudo apt update
+     sudo apt install cargo
+     ```
+   - **Linux (Fedora):**
+     ```sh
+     sudo dnf install cargo
+     ```
+   - **MacOS (using Homebrew):**
+     ```sh
+     brew install rust
+     ```
+   - **Windows:**
+     Download and install [Rust and Cargo](https://www.rust-lang.org/tools/install) from the official Rust website.
+
+### Build Instructions
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/yourusername/libre_bee.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd path/to/libre_bee # replace with actual path
+   ```
+3. Build the application:
+   ```sh
+   cargo build --release
+   ```
+
+## Running the Program
+Once built, you can run Libre Bee as follows:
 
 ```sh
-cd path/to/libre_bee # replace with actual path
-sudo dnf install cargo # install cargo if you have not already
-cargo build --release # build a release version in the target directory
+./target/release/libre_bee
 ```
 
-You can then run it by:
-
-```sh
-./target/release/libre_bee # in the same directory
+### Windows Users
+On Windows, you may need to specify the executable extension:
+```cmd
+.	arget\release\libre_bee.exe
 ```
 
-More information and help to be provided at a later date.
+## Notes
+- Make sure that Cargo is added to your system's PATH.
+- For Linux and MacOS, you may need to set executable permissions:
+  ```sh
+  chmod +x ./target/release/libre_bee
+  ```
+- Updates, help, and additional features will be provided in future releases.
+
+## License
+Libre Bee is released under GNU General Public License 3.0. Feel free to use, modify, and share it, under the conditions presented in the LICENSE file.
