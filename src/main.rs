@@ -111,12 +111,13 @@ fn main() {
     // Step 3: Game loop
     loop {
         clear().expect("failed to clear screen");
-        println!("Libe Bee  Copyright (C) 2024  Zev Oster\nThis program comes with ABSOLUTELY NO WARRANTY; for details type \"/warranty\".\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; type \"/license\" for details.\n\n");
-        println!("Message: {}", message);
-        println!("Score: {:?}", total_score);
+        println!("Libre Bee  Copyright (C) 2024  Zev Oster\nThis program comes with ABSOLUTELY NO WARRANTY; for details type \"/warranty\".\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; type \"/license\" for details.\n");
+        println!("📢 Message: {}", message);
+        println!("💯 Score: {:?}", total_score);
         println!("🔤 Letters: {:?}", letters);
-        println!("⭐ Required letter: '{}'", required_letter);
-        println!("\nEnter a word (type '/shuffle' to shuffle the letters, type '/quit' to exit, '/help' for more commands and game rules):");
+        println!("⭐ Required letter: '{}'\n", required_letter);
+        println!("Commands Cheat Sheet:\n'/found' to show used words\n'/shuffle' to shuffle letters in the display\n'/quit' to exit game\n'/help' for more commands\n");
+        println!("Enter a word:");
         let mut input = String::new();
         io::stdin().read_line(&mut input).unwrap();
         let word = input.trim().to_lowercase();
@@ -223,5 +224,12 @@ mod tests {
         let word_list = load_word_list(WORD_LIST);
         let word = "hello";  // Make sure this word exists in your word list
         assert!(is_valid_word(word, &word_list));
+    }
+
+    #[test]
+    fn test_is_not_valid_word() {
+        let word_list = load_word_list(WORD_LIST);
+        let word = "miami";  // Make sure this is not a word exists in your word list
+        assert!(!is_valid_word(word, &word_list));
     }
 }

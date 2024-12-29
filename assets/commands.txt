@@ -4,7 +4,7 @@ Commands:
 /commands - only shows game commands
 /info - shows creator and liscense information
 
-/shuffle - Move the letters around in the display.
+/shuffle - Move the letters around in the display
 
 /license - full GNU 3.0 license
 /warranty - Shows GNU Warranty Message
