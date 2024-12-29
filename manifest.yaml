@@ -1,0 +1,21 @@
+app-id: com.example.libre_bee
+runtime: org.freedesktop.Platform
+runtime-version: "21.08"
+sdk: org.freedesktop.Sdk
+command: libre_bee
+finish-args:
+  - --share=network
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --filesystem=home
+
+modules:
+  - name: libre_bee
+    buildsystem: simple
+    build-commands:
+      - cargo build --release
+      - install -D target/release/libre_bee /app/bin/libre_bee
+    sources:
+      - type: git
+        url: https://github.com/zevelijah/libre_bee
+        tag: master
