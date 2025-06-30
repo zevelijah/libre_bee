@@ -46,7 +46,7 @@ Once built, you can run Libre Bee as follows:
 ### Windows Users
 On Windows, you may need to specify the executable extension:
 ```cmd
-.	arget\release\libre_bee.exe
+.\target\release\libre_bee.exe
 ```
 
 ## Notes
@@ -58,4 +58,4 @@ On Windows, you may need to specify the executable extension:
 - Updates, help, and additional features will be provided in future releases.
 
 ## License
-Libre Bee is released under GNU General Public License 3.0. Feel free to use, modify, and share it, under the conditions presented in the LICENSE file.
+Libre Bee is released under GNU General Public License 3.0. Use, modify, and share it, under the conditions presented in the LICENSE file.
