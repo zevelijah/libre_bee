@@ -6,10 +6,10 @@ use std::io;
 
 /// Computes the score for a given word based on its length and unique characters.
 /// 
-/// # Parameters
+/// ## Parameters
 /// - `word`: The word for which the score will be calculated.
 /// 
-/// # Returns
+/// ## Returns
 /// The score for the word. The score is based on the word's length, with a bonus for having 7 unique characters.
 /// If the word is a pangram (7 unique letters), a bonus of 7 points is awarded.
 ///
@@ -29,10 +29,10 @@ pub fn compute_score(word: &str) -> usize {
 
 /// Loads the word list from a file and stores each word in a `HashSet` for efficient lookup.
 /// 
-/// # Parameters
+/// ## Parameters
 /// - `file_path`: The path to the file containing the word list. Each word should be on its own line.
 /// 
-/// # Returns
+/// ## Returns
 /// A `HashSet<String>` containing all the words in the file.
 ///
 pub fn load_word_list(file_content: &str) -> HashSet<String> {
@@ -57,11 +57,11 @@ fn get_random_line(file_content: &str) -> Option<String> {
 
 /// Validates whether a given word exists in the loaded word list.
 /// 
-/// # Parameters
+/// ## Parameters
 /// - `word`: The word to validate.
 /// - `word_list`: A reference to the `HashSet<String>` containing valid words.
 /// 
-/// # Returns
+/// ## Returns
 /// `true` if the word exists in the word list, otherwise `false`.
 ///
 pub fn is_valid_word(word: &str, word_list: &HashSet<String>) -> bool {
@@ -70,10 +70,10 @@ pub fn is_valid_word(word: &str, word_list: &HashSet<String>) -> bool {
 
 /// Displays the contents of specified text files.
 /// 
-/// # Parameters
+/// ## Parameters
 /// - `files`: A slice of file contents (as strings) to display.
 /// 
-/// # Behavior
+/// ## Behavior
 /// This function will print the content to the console. If a content is empty,
 /// an error message is printed.
 pub fn display_text(file_contents: &[&str]) {
@@ -139,12 +139,8 @@ fn main() {
                 println!("THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY \nAPPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT \nHOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT \nWARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT \nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR \nA PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND \nPERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE \nDEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR \nCORRECTION.")
             } else if word == "/license" {
                 display_text(&[GPL_LICENSE]);
-            } else if word == "/stats" {
-                println!("Total score: {}", total_score);
-                println!("Words used: {:?}", used_words);            
-            } else if word == "/score" {
-                println!("Total score: {}", total_score);
             } else if word == "/found" {
+                println!("Score: {:?}\n", total_score);
                 println!("Words used: {:?}", used_words);
             } else if word == "/shuffle" {
                 letters.shuffle(&mut rand::thread_rng());

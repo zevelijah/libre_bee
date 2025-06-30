@@ -9,8 +9,6 @@ Commands:
 /license - full GNU 3.0 license
 /warranty - Shows GNU Warranty Message
 
-/stats - combines /found and /score
 /found - Shows words you've discovered so far
-/score - shows your current score
 
 /quit - shows you game score and words used and exits the program
