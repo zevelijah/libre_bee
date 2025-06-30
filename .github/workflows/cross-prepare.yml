@@ -1,0 +1,54 @@
+name: Cross-Compilation Prepare
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-linux:
+    name: Build on Linux with cross targets
+    runs-on: fedora-latest
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Install system dependencies
+      run: |
+        sudo dnf update
+        sudo dnf install mingw-w64
+        sudo dnf install zig
+
+    - name: Install cargo-zigbuild
+      run: cargo install cargo-zigbuild
+
+    - name: Add targets
+      run: |
+        rustup target add x86_64-pc-windows-gnu
+        rustup target add aarch64-apple-darwin
+        rustup target add x86_64-apple-darwin
+
+    - name: Build native
+      run: |
+        cargo build
+        cargo build --release
+
+    - name: Cross-build macOS
+      run: |
+        cargo zigbuild --target aarch64-apple-darwin
+        cargo zigbuild --release --target aarch64-apple-darwin
+        cargo zigbuild --target x86_64-apple-darwin
+        cargo zigbuild --release --target x86_64-apple-darwin
+
+    - name: Cross-build Windows
+      run: |
+        cargo build --target x86_64-pc-windows-gnu
+        cargo build --release --target x86_64-pc-windows-gnu
