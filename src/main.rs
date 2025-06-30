@@ -225,7 +225,7 @@ mod tests {
     #[test]
     fn test_is_not_valid_word() {
         let word_list = load_word_list(WORD_LIST);
-        let word = "miami";  // Make sure this is not a word exists in your word list
+        let word = "kkkkk";  // Make sure this is not a word exists in your word list
         assert!(!is_valid_word(word, &word_list));
     }
 }
