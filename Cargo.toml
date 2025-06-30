@@ -1,8 +1,16 @@
 [package]
 name = "libre_bee"
 version = "0.2.1"
+authors = ["Zev Oster zevelijah@gmail.com"]
+license = "GPL-3.0-or-later"
+description = "A libre version of New York Times Spelling Bee"
+readme = "README.md"
+homepage = "https://github.com/zevelijah/libre_bee"
+repository = "https://github.game/zevelijah/libre_bee"
+keywords = ["cli", "game", "demo"]
+categories = ["command-line-utilities"]
 edition = "2021"
 
 [dependencies]
-rand = "0.8"
-clearscreen = "3.0.0"
+rand = "^0.8"
+clearscreen = "^3.0.0"
