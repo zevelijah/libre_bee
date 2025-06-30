@@ -5,6 +5,26 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Cargo Debug",
+            "program": "${workspaceFolder}/target/debug/libre_bee",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        // {
+        //     "type": "lldb",
+        //     "request": "launch",
+        //     "name": "HELL",
+        //     "cargo": {
+        //         "args": [
+        //             "build",
+        //             "--lib"
+        //         ]
+        //     },
+        //     "args": []
+        // },
+        {
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
