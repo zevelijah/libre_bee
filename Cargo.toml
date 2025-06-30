@@ -5,6 +5,7 @@ authors = ["Zev Oster zevelijah@gmail.com"]
 license = "GPL-3.0-or-later"
 description = "A libre version of New York Times Spelling Bee"
 readme = "README.md"
+documentation = "https://github.com/zevelijah/libre_bee"
 homepage = "https://github.com/zevelijah/libre_bee"
 repository = "https://github.game/zevelijah/libre_bee"
 keywords = ["cli", "game", "demo"]
