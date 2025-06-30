@@ -10,9 +10,9 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-fedora:
+  build-ubuntu:
 
-    runs-on: fedora-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout source
@@ -23,9 +23,9 @@ jobs:
 
     - name: Install system dependencies
       run: |
-        sudo dnf update
-        sudo dnf install mingw-w64
-        sudo dnf install zig
+        sudo apt-get update
+        sudo apt-get install mingw-w64
+        sudo apt-get install zig
 
     - name: Install cargo-zigbuild
       run: cargo install --verbose cargo-zigbuild
