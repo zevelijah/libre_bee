@@ -1,0 +1,127 @@
+name: Deploy
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+    branches:
+      - master
+
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  cargo-publish:
+    name: Publish to crates.io
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Validate tag matches Cargo.toml version
+        id: check-version
+        run: |
+          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
+          CRATE_VERSION=$(grep '^version =' Cargo.toml | cut -d '"' -f2)
+
+          echo "Tag version: $TAG_VERSION"
+          echo "Crate version: $CRATE_VERSION"
+
+          if [ "$TAG_VERSION" != "$CRATE_VERSION" ]; then
+            echo "Tag version and Cargo.toml version do not match"
+            exit 1
+          fi
+
+      - name: Check if version already exists on crates.io
+        run: |
+          CRATE_NAME=$(grep '^name =' Cargo.toml | cut -d '"' -f2)
+          VERSION=$(grep '^version =' Cargo.toml | cut -d '"' -f2)
+
+          echo "Checking if $CRATE_NAME@$VERSION exists on crates.io..."
+          if curl --silent https://crates.io/api/v1/crates/$CRATE_NAME/$VERSION | grep -q '"version":'; then
+            echo "Version $VERSION already exists on crates.io"
+            exit 1
+          fi
+
+      - name: test
+        run: cargo test
+
+      - name: Publish to crates.io
+        run: cargo publish --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
+  github-release:
+    name: Build and Release to Github
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Validate tag matches Cargo.toml version
+        id: check-version
+        run: |
+          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
+          CRATE_VERSION=$(grep '^version =' Cargo.toml | cut -d '"' -f2)
+
+          echo "Tag version: $TAG_VERSION"
+          echo "Crate version: $CRATE_VERSION"
+
+          if [ "$TAG_VERSION" != "$CRATE_VERSION" ]; then
+            echo "Tag version and Cargo.toml version do not match"
+            exit 1
+          fi
+
+      - name: Check if version already exists on crates.io
+        run: |
+          CRATE_NAME=$(grep '^name =' Cargo.toml | cut -d '"' -f2)
+          VERSION=$(grep '^version =' Cargo.toml | cut -d '"' -f2)
+
+          echo "Checking if $CRATE_NAME@$VERSION exists on crates.io..."
+          if curl --silent https://crates.io/api/v1/crates/$CRATE_NAME/$VERSION | grep -q '"version":'; then
+            echo "Version $VERSION already exists on crates.io"
+            exit 1
+          fi
+
+      - name: test
+        run: cargo test
+
+      - name: Install Zig (for macOS builds)
+        run: |
+          curl -L https://ziglang.org/download/0.12.0/zig-linux-x86_64-0.12.0.tar.xz | tar -xJ
+          mv zig-linux-x86_64-0.12.0 /opt/zig
+          echo "/opt/zig" >> $GITHUB_PATH
+      - run: cargo install cargo-zigbuild
+
+      - name: Add targets
+        run: |
+          rustup target add x86_64-pc-windows-gnu
+          rustup target add x86_64-apple-darwin
+
+      - name: Build binaries
+        run: |
+          cargo build --release
+          cargo build --release --target x86_64-pc-windows-gnu
+          cargo zigbuild --release --target x86_64-apple-darwin
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            target/release/libre_bee
+            target/x86_64-pc-windows-gnu/release/libre_bee.exe
+            target/x86_64-apple-darwin/release/libre_bee
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

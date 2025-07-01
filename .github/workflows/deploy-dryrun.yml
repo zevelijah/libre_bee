@@ -1,0 +1,59 @@
+name: Deploy Dry Run
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+    branches: [ "master", "github-actions" ]
+
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  cargo-publish:
+    name: Dry Run crates.io
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Validate tag matches Cargo.toml version
+        id: check-version
+        run: |
+          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
+          CRATE_VERSION=$(grep '^version =' Cargo.toml | cut -d '"' -f2)
+
+          echo "Tag version: $TAG_VERSION"
+          echo "Crate version: $CRATE_VERSION"
+
+          if [ "$TAG_VERSION" != "$CRATE_VERSION" ]; then
+            echo "Tag version and Cargo.toml version do not match"
+            exit 1
+          fi
+
+      - name: Check if version already exists on crates.io
+        run: |
+          CRATE_NAME=$(grep '^name =' Cargo.toml | cut -d '"' -f2)
+          VERSION=$(grep '^version =' Cargo.toml | cut -d '"' -f2)
+
+          echo "Checking if $CRATE_NAME@$VERSION exists on crates.io..."
+          if curl --silent https://crates.io/api/v1/crates/$CRATE_NAME/$VERSION | grep -q '"version":'; then
+            echo "Version $VERSION already exists on crates.io"
+            exit 1
+          fi
+
+      - name: test
+        run: cargo test
+
+      - name: Token Exists?
+        run: NOTHINGBURGER=${{ secrets.GITHUB_TOKEN }}
+
+      - name: dry run Publish to crates.io
+        run: cargo publish --dry-run

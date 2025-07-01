@@ -1,4 +1,4 @@
-name: Rust
+name: Rust Build
 
 on:
   push:
@@ -25,6 +25,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install mingw-w64
+    
+    - name: test
+      run: cargo test --verbose
 
     - name: Install Zig
       run: |
@@ -57,5 +60,3 @@ jobs:
       run: |
         cargo build --verbose --target x86_64-pc-windows-gnu
         cargo build --verbose --release --target x86_64-pc-windows-gnu
-    - name: test
-      run: cargo test --verbose
