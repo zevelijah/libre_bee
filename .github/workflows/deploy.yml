@@ -26,6 +26,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Check if tag is on master
+        run: |
+          TAG_COMMIT=$(git rev-parse ${{ github.ref }})
+          MASTER_COMMIT=$(git rev-parse origin/master)
+          if [ "$TAG_COMMIT" != "$MASTER_COMMIT" ]; then
+            echo "Tag is not on master. Skipping."
+            exit 1
+          fi
+
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
 
@@ -34,7 +43,7 @@ jobs:
         run: |
           echo "GITHUB_REF: $GITHUB_REF"
 
-          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
+          TAG_VERSION="${GITHUB_REF#refs/tags/}"
           CRATE_VERSION=$(grep '^version =' Cargo.toml | cut -d '"' -f2)
 
           echo "Tag version: $TAG_VERSION"
