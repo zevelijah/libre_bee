@@ -27,6 +27,8 @@ jobs:
       - name: Validate tag matches Cargo.toml version
         id: check-version
         run: |
+          echo "GITHUB_REF: $GITHUB_REF"
+
           TAG_VERSION="${GITHUB_REF#refs/tags/}"
           CRATE_VERSION=$(grep '^version =' Cargo.toml | cut -d '"' -f2)
 
