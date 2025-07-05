@@ -4,7 +4,8 @@ on:
   push:
     tags:
       - "*.*.*"
-    # branches: [ "master", "github-actions" ]
+    branches: 
+      - "github-actions"
 
   pull_request:
     branches: [ "master" ]
@@ -20,6 +21,15 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
+      - name: Check if tag is on github-actions
+        run: |
+          TAG_COMMIT=$(git rev-parse ${{ github.ref }})
+          TEST_WORKFLOW_COMMIT=$(git -- rev-parse origin/github-actions)
+          if [ "$TAG_COMMIT" != "$TEST_WORKFLOW_COMMIT" ]; then
+            echo "Tag is not on github-actions. Skipping."
+            exit 1
+          fi
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable

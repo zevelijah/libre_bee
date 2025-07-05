@@ -28,7 +28,7 @@ jobs:
 
       - name: Check if tag is on master
         run: |
-          TAG_COMMIT=$(git rev-parse ${{ github.ref }})
+          TAG_COMMIT=$(git rev-parse -- ${{ github.ref }})
           MASTER_COMMIT=$(git rev-parse origin/master)
           if [ "$TAG_COMMIT" != "$MASTER_COMMIT" ]; then
             echo "Tag is not on master. Skipping."
